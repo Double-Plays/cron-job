@@ -9,7 +9,12 @@ const cron = async () => {
             },
         });
         const elapsed = Date.now() - start;
+        const body = await response.text();
         console.log(`Response received: status=${response.status} statusText=${response.statusText} ok=${response.ok} elapsed=${elapsed}ms`);
+        if (body) {
+            const preview = body.length > 1000 ? `${body.slice(0, 1000)}… (truncated)` : body;
+            console.log(`Response body: ${preview}`);
+        }
     } catch (error) {
         console.error(`Request failed: ${error?.stack ?? error}`);
         throw error;
